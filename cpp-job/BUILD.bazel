@@ -1,6 +1,7 @@
 package(default_visibility = ["//:__subpackages__"])
 
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+load("@io_bazel_rules_docker//cc:image.bzl", "cc_image")
 
 cc_library(
     name = "hello-greet",
@@ -14,4 +15,10 @@ cc_binary(
     deps = [
         ":hello-greet",
     ],
+)
+
+cc_image(
+    name = "cpp_image",
+    base = "@docker_debian_slim//image",
+    binary = "//src:hello-world",
 )

@@ -1,6 +1,5 @@
 package(default_visibility = ["//:__subpackages__"])
 
-load("@io_bazel_rules_docker//cc:image.bzl", "cc_image")
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
 
 # Put the desired full name of the image here
@@ -11,15 +10,8 @@ app_image = "gcr.io/my-gcp-organization/app-image:latest"
 #   kubectl config view --minify -o=jsonpath='{.contexts[0].context.cluster}'
 cluster = "my-cluster"
 
-cc_image(
-    name = "app_image",
-    base = "@docker_debian_slim//image",
-    binary = "//src:hello-world",
-    ports = ["80/tcp"],
-)
-
 k8s_object(
-    name = "app_deployment",
+    name = "go_deployment",
     cluster = cluster,
     images = {
         app_image: ":app_image",
