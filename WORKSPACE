@@ -44,7 +44,7 @@ load("@io_bazel_rules_k8s//k8s:k8s_go_deps.bzl", k8s_go_deps = "deps")
 k8s_go_deps()
 
 ### pull debian_slim container from Docker Registry
-load("@io_bazel_rules_docker//container:container.bzl", "container_pull")
+load("@io_bazel_rules_docker//container:container.bzl", "container_load", "container_pull")
 
 container_pull(
     name = "docker_debian_slim",
@@ -52,4 +52,11 @@ container_pull(
     registry = "index.docker.io",
     repository = "debian",
     tag = "9.11-slim",
+)
+
+(
+    container_load(
+        name = "app_image_tar",
+        file = "//:app_image.tar",
+    ) if "//:app_image.tar" else None,
 )

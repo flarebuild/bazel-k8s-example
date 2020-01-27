@@ -30,3 +30,16 @@ k8s_object(
     },
     template = "deployment_tmpl.yaml",
 )
+
+k8s_object(
+    name = "tar_deployment",
+    cluster = cluster,
+    images = {
+        app_image: "@app_image_tar//image",
+    },
+    kind = "deployment",
+    substitutions = {
+        "TMPL_image": app_image,
+    },
+    template = "deployment_tmpl.yaml",
+)

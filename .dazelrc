@@ -1,0 +1,2 @@
+# The path to the Dockerfile to use to build the dazel image.
+DAZEL_DOCKERFILE="tools/Dockerfile.dazel"
