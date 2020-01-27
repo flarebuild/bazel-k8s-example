@@ -1,17 +1,17 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: app-deployment
+  name: go-deployment
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: app-test
+        app: go-test
     spec:
       containers:
-        - name: app
-          image: TMPL_image
+        - name: go-app
+          image: TMPL_go_image
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8080

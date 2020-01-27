@@ -1,10 +1,12 @@
 package(default_visibility = ["//:__subpackages__"])
 
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
+load("@io_bazel_rules_k8s//k8s:objects.bzl", "k8s_objects")
 
 # Put the desired full name of the image here
 # including the repository where you want to publish it.
-app_image = "gcr.io/my-gcp-organization/app-image:latest"
+go_image = "gcr.io/my-gcp-organization/go-backend:latest"
+cpp_image = "gcr.io/my-gcp-organization/cpp-hello-world:latest"
 
 # This is the name of the cluster as it appears in:
 #   kubectl config view --minify -o=jsonpath='{.contexts[0].context.cluster}'
@@ -14,24 +16,45 @@ k8s_object(
     name = "go_deployment",
     cluster = cluster,
     images = {
-        app_image: ":app_image",
+        go_image: "//go-backend:go_image",
     },
     kind = "deployment",
     substitutions = {
-        "TMPL_image": app_image,
+        "TMPL_go_image": go_image,
     },
-    template = "deployment_tmpl.yaml",
+    template = "go_deployment.yaml",
 )
 
 k8s_object(
-    name = "tar_deployment",
+    name = "cpp_job",
     cluster = cluster,
     images = {
-        app_image: "@app_image_tar//image",
+        cpp_image: "//cpp-job:cpp_image",
     },
-    kind = "deployment",
+    kind = "job",
     substitutions = {
-        "TMPL_image": app_image,
+        "TMPL_cpp_image": cpp_image,
     },
-    template = "deployment_tmpl.yaml",
+    template = "cpp_job.yaml",
+)
+
+k8s_objects(
+    name = "deploy_everything",
+    objects = [
+        ":go_deployment",
+        ":cpp_job",
+    ],
+)
+
+k8s_object(
+    name = "tar_cpp_job",
+    cluster = cluster,
+    images = {
+        cpp_image: "@cpp_image_tar//image",
+    },
+    kind = "job",
+    substitutions = {
+        "TMPL_cpp_image": cpp_image,
+    },
+    template = "cpp_job.yaml",
 )

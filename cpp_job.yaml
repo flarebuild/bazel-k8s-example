@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cpp-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: cpp-job
+          image: TMPL_cpp_image
+      restartPolicy: Never
+  backoffLimit: 4
+  completions: 1

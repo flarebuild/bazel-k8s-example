@@ -77,7 +77,7 @@ container_pull(
 
 (
     container_load(
-        name = "app_image_tar",
-        file = "//:app_image.tar",
-    ) if "//:app_image.tar" else None,
+        name = "cpp_image_tar",
+        file = "//:cpp_image.tar",
+    ) if "//:cpp_image.tar" else None,
 )

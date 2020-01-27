@@ -20,5 +20,5 @@ cc_binary(
 cc_image(
     name = "cpp_image",
     base = "@docker_debian_slim//image",
-    binary = "//src:hello-world",
+    binary = ":hello-world",
 )
