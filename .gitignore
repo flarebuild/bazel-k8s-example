@@ -1,0 +1,9 @@
+.clwb
+cmake-build-debug
+cmake_dist
+bazel-*
+.idea
+dist
+build
+.vscode
+*.swp
